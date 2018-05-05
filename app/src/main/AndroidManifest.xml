@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.login.InstagramLogin" />
+        <activity android:name=".ui.feed.FeedActivity" />
     </application>
 
 </manifest>

@@ -16,9 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 def appCompatVersion = '27.1.1'
+def retrofitVersion = '2.4.0'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -26,6 +31,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testCompile 'org.mockito:mockito-core:2.6.8'
 
     compile 'com.scottyab:secure-preferences-lib:0.1.4'
+
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 }
