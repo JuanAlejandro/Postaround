@@ -14,7 +14,7 @@ public interface RecentMediaDataSource {
     @GET("v1/media/search")
     Observable<RecentMediaResponse> getRecentMedia(@Query("lat") double lat,
                                                    @Query("lng") double lng,
-                                                   @Query("distance") long distance,
+                                                   @Query("distance") int distance,
                                                    @Query("access_token") String accessToken,
                                                    @Query("count") int count);
 }

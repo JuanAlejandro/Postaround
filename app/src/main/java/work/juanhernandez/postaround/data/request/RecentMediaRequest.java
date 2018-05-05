@@ -11,13 +11,13 @@ public class RecentMediaRequest {
 
     double lng;
 
-    long distance;
+    int distance;
 
     String accessToken;
 
     int count;
 
-    public RecentMediaRequest(double lat, double lng, long distance, String accessToken, int count) {
+    public RecentMediaRequest(double lat, double lng, int distance, String accessToken, int count) {
         this.lat = lat;
         this.lng = lng;
         this.distance = distance;
@@ -33,7 +33,7 @@ public class RecentMediaRequest {
         return lng;
     }
 
-    public long getDistance() {
+    public int getDistance() {
         return distance;
     }
 

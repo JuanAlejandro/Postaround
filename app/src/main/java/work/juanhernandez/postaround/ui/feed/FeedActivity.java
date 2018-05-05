@@ -12,17 +12,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import work.juanhernandez.postaround.R;
@@ -47,8 +50,11 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     private static final float LOCATION_REFRESH_DISTANCE = 10;
     private static final String LOCATION_ID_KEY = "LOCATION_ID_KEY";
     private static final int MAX_COUNT = 10;
+    private static final int MAX_DISTANCE = 5000;
+    private static final int DEFAULT_DISTANCE = 500;
 
     LocationManager locationManager;
+    Location location;
 
     ProgressBar pbLoadingRecentMedia;
 
@@ -60,6 +66,10 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     RecyclerView.LayoutManager layoutManager;
     FeedAdapter feedAdapter;
 
+    FeedPresenter feedPresenter;
+
+    int distance = DEFAULT_DISTANCE;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +77,16 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
         initializeViews();
 
+        initializeToolbar();
+
         enableUserLocation();
+    }
+
+    private void initializeToolbar() {
+        Toolbar myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -117,10 +136,10 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     private void updateLocationData() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             if (location != null) {
-                getRecentMedia(location);
+                getRecentMedia(location, distance);
                 return;
             }
 
@@ -132,10 +151,13 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     }
 
     private final LocationListener locationListener = new LocationListener() {
+
+
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
-                getRecentMedia(location);
+                FeedActivity.this.location = location;
+                getRecentMedia(location, distance);
             }
 
             hideProgress();
@@ -159,9 +181,12 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         // endregion
     };
 
-    private void getRecentMedia(Location location) {
+    private void getRecentMedia(Location location, int distance) {
+        showProgress();
 
-        FeedPresenter feedPresenter = new FeedPresenter(
+        recentMedia.clear();
+
+        feedPresenter = new FeedPresenter(
                 new RecentMediaRemoteDataSource().getApi(),
                 Schedulers.io(),
                 AndroidSchedulers.mainThread(),
@@ -169,13 +194,52 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
                 new RecentMediaRequest(
                         location.getLatitude(),
                         location.getLongitude(),
-                        500,
+                        distance,
                         PrefUtils.getStringPref(this, ACCESS_TOKEN_KEY),
                         MAX_COUNT));
 
         feedPresenter.loadData();
+    }
 
-        hideProgress();
+    void showDistancePickerDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        View dialogView = inflater.inflate(R.layout.dialog_select_distance, null);
+
+        SeekBar sbDistanceSelector = dialogView.findViewById(R.id.sbDistanceSelector);
+        sbDistanceSelector.setMax(MAX_DISTANCE);
+        sbDistanceSelector.setProgress(distance);
+
+        TextView tvDistance = dialogView.findViewById(R.id.tvDistance);
+        tvDistance.setText(String.valueOf(distance));
+
+        sbDistanceSelector.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                tvDistance.setText(String.valueOf(i));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                FeedActivity.this.distance = seekBar.getProgress();
+            }
+        });
+
+        builder.setView(dialogView)
+                // add action buttons
+                .setPositiveButton(R.string.ok, (dialog, id) -> {
+                    getRecentMedia(location, distance);
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+
+        builder.create().show();
     }
 
     @Override
@@ -214,5 +278,9 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     @Override
     public void onGetRecentMediaError(Throwable e) {
         Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void distancePickerClicked(View view) {
+        showDistancePickerDialog();
     }
 }

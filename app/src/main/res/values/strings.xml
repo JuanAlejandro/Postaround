@@ -15,4 +15,8 @@
     <string name="where_are_you_right_now">Where are you right now?</string>
     <string name="go_to_feed">Go to feed</string>
     <string name="we_need_you_to_give_us_permission_to_access_to_your_location">We need you to give us permission to access to your location</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="select_the_distance">Select the distance</string>
+    <string name="distance_sample">5000</string>
 </resources>

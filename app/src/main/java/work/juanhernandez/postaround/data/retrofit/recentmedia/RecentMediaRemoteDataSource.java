@@ -31,7 +31,7 @@ public class RecentMediaRemoteDataSource implements RecentMediaDataSource {
     }
 
     @Override
-    public Observable<RecentMediaResponse> getRecentMedia(double lat, double lng, long distance,
+    public Observable<RecentMediaResponse> getRecentMedia(double lat, double lng, int distance,
                                                           String accessToken, int count) {
         return this.api.getRecentMedia(lat, lng, distance, accessToken, count);
     }
