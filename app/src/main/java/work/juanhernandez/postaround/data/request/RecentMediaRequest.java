@@ -44,4 +44,8 @@ public class RecentMediaRequest {
     public int getCount() {
         return count;
     }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
 }

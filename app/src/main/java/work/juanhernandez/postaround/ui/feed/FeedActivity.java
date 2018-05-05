@@ -271,8 +271,23 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     @Override
     public void onGetRecentMediaSuccess(List<RecentMedia> recentMedia) {
-        this.recentMedia.addAll(recentMedia);
-        feedAdapter.notifyDataSetChanged();
+        if (recentMedia.size() != 0) {
+            this.recentMedia.addAll(recentMedia);
+            feedAdapter.notifyDataSetChanged();
+            return;
+        }
+
+        distance += DEFAULT_DISTANCE;
+
+        if (distance < MAX_DISTANCE) {
+            feedPresenter.loadData(distance);
+        } else if (distance != MAX_DISTANCE) {
+            distance = MAX_DISTANCE;
+            feedPresenter.loadData(distance);
+        } else {
+            // todo: show cute message here
+            Toast.makeText(this, "no posts founded in 5000 meters", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

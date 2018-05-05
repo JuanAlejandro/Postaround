@@ -48,6 +48,11 @@ public class FeedPresenter implements FeedContract.Presenter {
         this.subscriptions = new CompositeSubscription();
     }
 
+    void loadData(int distance){
+        recentMediaRequest.setDistance(distance);
+        loadData();
+    }
+
 
     @Override
     public void loadData() {
