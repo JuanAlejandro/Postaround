@@ -16,12 +16,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import work.juanhernandez.postaround.R;
 import work.juanhernandez.postaround.data.model.RecentMedia;
+import work.juanhernandez.postaround.data.request.RecentMediaRequest;
+import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaRemoteDataSource;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
+import work.juanhernandez.postaround.utils.PrefUtils;
+
+import static work.juanhernandez.postaround.utils.Constants.ACCESS_TOKEN_KEY;
 
 /**
  * Created by juan.hernandez on 5/4/18.
@@ -41,6 +50,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     ProgressBar pbLoadingRecentMedia;
 
     TextView tvMessage;
+
+    List<RecentMedia> recentMedia = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,11 +147,20 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     };
 
     private void getRecentMedia(Location location) {
-        Toast.makeText(this,
-                String.format(Locale.getDefault(), "Latitude: %f Longitude: %f",
-                        location.getLatitude(), location.getLongitude()),
-                Toast.LENGTH_SHORT)
-                .show();
+
+        FeedPresenter feedPresenter = new FeedPresenter(
+                new RecentMediaRemoteDataSource().getApi(),
+                Schedulers.io(),
+                AndroidSchedulers.mainThread(),
+                this,
+                new RecentMediaRequest(
+                        location.getLatitude(),
+                        location.getLongitude(),
+                        1000,
+                        PrefUtils.getStringPref(this, ACCESS_TOKEN_KEY),
+                        MAX_COUNT));
+
+        feedPresenter.loadData();
 
         hideProgress();
     }
@@ -156,7 +176,7 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
             } else {
                 // Permission was denied. todo: Display an error message.
                 hideProgress();
-                
+
                 showMessage();
             }
         }
@@ -164,21 +184,21 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     @Override
     public void onGetRecentMediaStarted() {
-
+        showProgress();
     }
 
     @Override
     public void onGetRecentMediaCompleted() {
-
+        hideProgress();
     }
 
     @Override
     public void onGetRecentMediaSuccess(List<RecentMedia> recentMedia) {
-
+        Toast.makeText(this, "recent media fetched successfully", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onGetRecentMediaError(Throwable e) {
-
+        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
     }
 }

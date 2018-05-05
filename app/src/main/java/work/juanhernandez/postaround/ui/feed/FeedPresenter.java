@@ -8,6 +8,7 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import work.juanhernandez.postaround.data.request.RecentMediaRequest;
 import work.juanhernandez.postaround.data.response.RecentMediaResponse;
+import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaDataSource;
 import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaRemoteDataSource;
 
 /**
@@ -17,7 +18,7 @@ import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaRemote
 
 public class FeedPresenter implements FeedContract.Presenter {
     @NonNull
-    private RecentMediaRemoteDataSource recentMediaDataSource;
+    private RecentMediaDataSource recentMediaDataSource;
 
     @NonNull
     private Scheduler backgroundScheduler;
@@ -33,7 +34,7 @@ public class FeedPresenter implements FeedContract.Presenter {
     private RecentMediaRequest recentMediaRequest;
 
     // all the dependencies are injected to help our unit tests
-    public FeedPresenter(@NonNull RecentMediaRemoteDataSource recentMediaDataSource,
+    public FeedPresenter(@NonNull RecentMediaDataSource recentMediaDataSource,
                          @NonNull Scheduler backgroundScheduler,
                          @NonNull Scheduler mainScheduler,
                          FeedContract.View view,

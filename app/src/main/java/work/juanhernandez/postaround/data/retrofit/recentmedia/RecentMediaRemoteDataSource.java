@@ -23,7 +23,11 @@ public class RecentMediaRemoteDataSource implements RecentMediaDataSource {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        this.api = retrofit.create(RecentMediaRemoteDataSource.class);
+        this.api = retrofit.create(RecentMediaDataSource.class);
+    }
+
+    public RecentMediaDataSource getApi() {
+        return api;
     }
 
     @Override
