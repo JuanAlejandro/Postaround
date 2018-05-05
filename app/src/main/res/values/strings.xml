@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PostsAround</string>
+    <string name="app_name">postaround</string>
     <string name="login_with_instagram">login with instagram</string>
     <string name="you_will_see_the_result_here">You will see the result here</string>
     <string name="login_successfully">Login was successful! :D</string>
@@ -13,4 +13,6 @@
     <string name="ig_username">iamjalejandro</string>
     <string name="ig_description">Looking for #something</string>
     <string name="where_are_you_right_now">Where are you right now?</string>
+    <string name="go_to_feed">Go to feed</string>
+    <string name="we_need_you_to_give_us_permission_to_access_to_your_location">We need you to give us permission to access to your location</string>
 </resources>

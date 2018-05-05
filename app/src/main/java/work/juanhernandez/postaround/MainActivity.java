@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import work.juanhernandez.postaround.ui.base.BaseActivity;
+import work.juanhernandez.postaround.ui.feed.FeedActivity;
 import work.juanhernandez.postaround.ui.login.InstagramLogin;
 import work.juanhernandez.postaround.utils.PrefUtils;
 
@@ -71,5 +72,9 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    public void goToFeedClicked(View view) {
+        startActivity(new Intent(MainActivity.this, FeedActivity.class));
     }
 }

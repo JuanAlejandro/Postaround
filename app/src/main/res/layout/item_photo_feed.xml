@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    android:background="@android:color/white"
+    app:cardElevation="@dimen/card_elevation">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivIGPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/placeholder" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivIGPhoto"
+            android:background="@android:color/white"
+            android:padding="@dimen/padding_medium">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civProfilePhoto"
+                android:layout_width="@dimen/profile_img_dimen"
+                android:layout_height="@dimen/profile_img_dimen"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_placeholder" />
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_toEndOf="@id/civProfilePhoto"
+                android:layout_toRightOf="@id/civProfilePhoto"
+                android:text="@string/ig_username" />
+
+            <TextView
+                android:id="@+id/tvComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tvUsername"
+                android:layout_alignStart="@id/tvUsername"
+                android:layout_below="@id/tvUsername"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/ig_description" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

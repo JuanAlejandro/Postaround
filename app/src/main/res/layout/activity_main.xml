@@ -30,4 +30,14 @@
         android:text="@string/login_with_instagram"
         android:layout_centerInParent="true"/>
 
+    <Button
+        android:id="@+id/btnGoToFeed"
+        android:layout_below="@id/btnLogin"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="goToFeedClicked"
+        android:layout_centerHorizontal="true"
+        android:text="@string/go_to_feed" />
+
 </RelativeLayout>
