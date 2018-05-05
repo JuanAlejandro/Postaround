@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">Postaround</string>
+    <string name="app_name">PostsAround</string>
+    <string name="login_with_instagram">login with instagram</string>
+    <string name="you_will_see_the_result_here">You will see the result here</string>
+    <string name="login_successfully">Login was successful! :D</string>
+    <string name="login_failed">Login failed :(</string>
+    <string name="login_undefined">Something odd happened :\\</string>
+    <string name="go_to_locations">GO TO LOCATIONS</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="brickell_city_center">Brickell City Center</string>
+    <string name="your_current_location">Your current location</string>
+    <string name="ig_username">iamjalejandro</string>
+    <string name="ig_description">Looking for #something</string>
+    <string name="where_are_you_right_now">Where are you right now?</string>
 </resources>
