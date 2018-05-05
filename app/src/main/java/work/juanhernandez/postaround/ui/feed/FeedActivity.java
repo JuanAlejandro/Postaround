@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import work.juanhernandez.postaround.data.model.RecentMedia;
 import work.juanhernandez.postaround.data.request.RecentMediaRequest;
 import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaRemoteDataSource;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
+import work.juanhernandez.postaround.ui.feed.adapter.FeedAdapter;
 import work.juanhernandez.postaround.utils.PrefUtils;
 
 import static work.juanhernandez.postaround.utils.Constants.ACCESS_TOKEN_KEY;
@@ -53,6 +56,10 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     List<RecentMedia> recentMedia = new ArrayList<>();
 
+    RecyclerView rvFeed;
+    RecyclerView.LayoutManager layoutManager;
+    FeedAdapter feedAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +77,12 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
         tvMessage = findViewById(R.id.tvMessage);
         setMessageView(tvMessage);
+
+        rvFeed = findViewById(R.id.rvFeed);
+        layoutManager = new LinearLayoutManager(this);
+        rvFeed.setLayoutManager(layoutManager);
+        feedAdapter = new FeedAdapter(this.recentMedia);
+        rvFeed.setAdapter(feedAdapter);
     }
 
     private void enableUserLocation() {
@@ -156,7 +169,7 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
                 new RecentMediaRequest(
                         location.getLatitude(),
                         location.getLongitude(),
-                        1000,
+                        500,
                         PrefUtils.getStringPref(this, ACCESS_TOKEN_KEY),
                         MAX_COUNT));
 
@@ -194,7 +207,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     @Override
     public void onGetRecentMediaSuccess(List<RecentMedia> recentMedia) {
-        Toast.makeText(this, "recent media fetched successfully", Toast.LENGTH_SHORT).show();
+        this.recentMedia.addAll(recentMedia);
+        feedAdapter.notifyDataSetChanged();
     }
 
     @Override
