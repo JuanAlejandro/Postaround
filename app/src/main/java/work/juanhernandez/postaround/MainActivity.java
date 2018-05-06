@@ -1,14 +1,13 @@
 package work.juanhernandez.postaround;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import work.juanhernandez.postaround.ui.base.BaseActivity;
 import work.juanhernandez.postaround.ui.feed.FeedActivity;
-import work.juanhernandez.postaround.ui.login.InstagramLogin;
+import work.juanhernandez.postaround.ui.login.IGLoginActivity;
 import work.juanhernandez.postaround.utils.PrefUtils;
 
 import static work.juanhernandez.postaround.utils.Constants.ACCESS_TOKEN_KEY;
@@ -43,7 +42,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void loginWithInstagramClicked(View view) {
-        Intent intent = new Intent(MainActivity.this, InstagramLogin.class);
+        Intent intent = new Intent(MainActivity.this, IGLoginActivity.class);
         startActivityForResult(intent, INSTAGRAM_LOGIN);
     }
 

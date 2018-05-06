@@ -6,13 +6,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import work.juanhernandez.postaround.R;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
 import work.juanhernandez.postaround.utils.Constants;
+import work.juanhernandez.postaround.utils.Utils;
 
 import static work.juanhernandez.postaround.MainActivity.ACCESS_TOKEN;
 import static work.juanhernandez.postaround.MainActivity.LOGIN_ERROR;
@@ -21,10 +25,10 @@ import static work.juanhernandez.postaround.MainActivity.LOGIN_RESULT;
 
 /**
  * Created by juan.hernandez on 5/3/18.
- * InstagramLogin
+ * IGLoginActivity
  */
 
-public class InstagramLogin extends BaseActivity {
+public class IGLoginActivity extends BaseActivity {
     private final String url = Constants.BASE_URL
             + "oauth/authorize/?client_id=" +
             Constants.CLIENT_ID +
@@ -37,10 +41,12 @@ public class InstagramLogin extends BaseActivity {
 
     private ProgressBar pbLoading;
 
+    private LinearLayout llDontHaveAccess;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.instagram_login);
+        setContentView(R.layout.activity_iglogin);
 
         initializeViews();
     }
@@ -50,6 +56,8 @@ public class InstagramLogin extends BaseActivity {
         initializeWebView();
 
         pbLoading = findViewById(R.id.pbLoading);
+
+        llDontHaveAccess = findViewById(R.id.llDontHaveAccess);
     }
 
     private void initializeWebView() {
@@ -90,6 +98,13 @@ public class InstagramLogin extends BaseActivity {
                     return false;
                 }
             }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                webView.setVisibility(View.GONE);
+                llDontHaveAccess.setVisibility(View.VISIBLE);
+            }
         });
     }
 
@@ -100,5 +115,9 @@ public class InstagramLogin extends BaseActivity {
             intent.putExtra(ACCESS_TOKEN, accessToken);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    public void contactMeClicked(View view) {
+        Utils.writeAnEmail(IGLoginActivity.this);
     }
 }

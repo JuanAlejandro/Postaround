@@ -3,6 +3,7 @@ package work.juanhernandez.postaround.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import work.juanhernandez.postaround.R;
@@ -34,7 +35,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void loginWithInstagramClicked(View view) {
-        Intent intent = new Intent(LoginActivity.this, InstagramLogin.class);
+        Intent intent = new Intent(LoginActivity.this, IGLoginActivity.class);
         startActivityForResult(intent, INSTAGRAM_LOGIN);
     }
 
@@ -55,11 +56,13 @@ public class LoginActivity extends BaseActivity {
 
                     case LOGIN_ERROR:
                         // todo: show error message
+                        Log.d("LoginActivity", "point");
                         break;
 
                     case LOGIN_UNDEFINED:
                     default:
                         // todo: show undefined message
+                        Log.d("LoginActivity", "point");
                         break;
                 }
             }

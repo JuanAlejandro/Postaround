@@ -344,4 +344,16 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         llEmptySearch.setVisibility(View.GONE);
         updateLocationData();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        feedPresenter.unsubscribe();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        feedPresenter.onDestroy();
+    }
 }

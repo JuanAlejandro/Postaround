@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
-    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardElevation="@dimen/small_elevation">
 
     <RelativeLayout
@@ -30,7 +32,8 @@
                 android:layout_width="@dimen/profile_img_dimen"
                 android:layout_height="@dimen/profile_img_dimen"
                 android:scaleType="centerCrop"
-                android:src="@drawable/profile_placeholder" />
+                android:src="@drawable/profile_placeholder"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvUsername"
@@ -40,7 +43,8 @@
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_toEndOf="@id/civProfilePhoto"
                 android:layout_toRightOf="@id/civProfilePhoto"
-                android:text="@string/ig_username" />
+                android:text="@string/ig_username"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvComment"
