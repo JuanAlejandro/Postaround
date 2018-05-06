@@ -4,22 +4,22 @@ package work.juanhernandez.postaround.data.model;
  * Created by juan.hernandez on 5/4/18.
  */
 
-public class ImageIG {
+public class MediaIG {
     String url;
 
-    long width;
+    int width;
 
-    long height;
+    int height;
 
     public String getUrl() {
         return url;
     }
 
-    public long getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public long getHeight() {
+    public int getHeight() {
         return height;
     }
 }

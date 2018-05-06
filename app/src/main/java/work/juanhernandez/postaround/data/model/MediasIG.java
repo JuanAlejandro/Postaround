@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by juan.hernandez on 5/4/18.
- * ImagesIG
+ * MediasIG
  */
 
-public class ImagesIG {
+public class MediasIG {
     @SerializedName("standard_resolution")
-    ImageIG standardResolution;
+    MediaIG standardResolution;
 
-    public ImageIG getStandardResolution() {
+    public MediaIG getStandardResolution() {
         return standardResolution;
     }
 }

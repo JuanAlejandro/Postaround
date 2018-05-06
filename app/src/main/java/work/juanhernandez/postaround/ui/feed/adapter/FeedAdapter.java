@@ -21,7 +21,6 @@ import work.juanhernandez.postaround.data.model.RecentMedia;
  */
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-
     List<RecentMedia> recentMedia;
 
     public FeedAdapter(List<RecentMedia> recentMedia) {
@@ -67,8 +66,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                             .getUrl())
                     .placeholder(R.drawable.placeholder)
                     .into(ivIGPhoto);
-
-            // todo: get user profile photo
+            ivIGPhoto.setVisibility(View.VISIBLE);
 
             tvUsername.setText(recentMedia.getUser().getUsername());
 

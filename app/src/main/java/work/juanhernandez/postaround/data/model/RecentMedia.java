@@ -6,13 +6,16 @@ package work.juanhernandez.postaround.data.model;
  */
 
 public class RecentMedia {
+    public static final String IMAGE_TYPE = "image";
+    public static final String VIDEO_TYPE = "video";
+
     String id;
 
     User user;
 
-    ImagesIG images;
+    MediasIG images;
 
-    VideosIG videos;
+    MediasIG videos;
 
     Caption caption;
 
@@ -28,11 +31,11 @@ public class RecentMedia {
         return user;
     }
 
-    public ImagesIG getImages() {
+    public MediasIG getImages() {
         return images;
     }
 
-    public VideosIG getVideos() {
+    public MediasIG getVideos() {
         return videos;
     }
 
