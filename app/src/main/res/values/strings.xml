@@ -18,7 +18,7 @@
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="select_the_distance">Select the distance</string>
-    <string name="distance_sample">5000</string>
+    <string name="distance_sample">5000 meters</string>
     <string name="log_in_with_instagram">Log in with instagram</string>
     <string name="login_desc_text">Check out instagramers around you the easiest way!</string>
     <string name="post_data">P.S.: Don’t worry… this will be our secret ;)</string>

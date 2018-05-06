@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -13,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import okhttp3.internal.Util;
 import work.juanhernandez.postaround.R;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
 import work.juanhernandez.postaround.utils.Constants;
@@ -62,6 +65,9 @@ public class IGLoginActivity extends BaseActivity {
 
     private void initializeWebView() {
         webView = findViewById(R.id.wvLogin);
+        // in order to reload instagram login page
+        Utils.clearCookies(this);
+
         webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {
             String accessToken = "";

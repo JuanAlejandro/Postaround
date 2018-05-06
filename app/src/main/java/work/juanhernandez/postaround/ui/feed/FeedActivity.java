@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -233,12 +234,12 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         sbDistanceSelector.setProgress(distance);
 
         TextView tvDistance = dialogView.findViewById(R.id.tvDistance);
-        tvDistance.setText(String.valueOf(distance));
+        tvDistance.setText(String.format(Locale.getDefault(), "%d meters", distance));
 
         sbDistanceSelector.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tvDistance.setText(String.valueOf(i));
+                tvDistance.setText(String.format(Locale.getDefault(), "%d meters", i));
             }
 
             @Override
