@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class PrefUtilsTest {
     @Test
-    public void prefsAreSavedCorrectly() throws Exception {
+    public void securePrefsAreSavedCorrectly() throws Exception {
         String key = "foo_key";
         String value = "This is the String to save";
         Context appContext = InstrumentationRegistry.getTargetContext();

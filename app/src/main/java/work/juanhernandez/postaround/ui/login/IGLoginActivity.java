@@ -21,17 +21,22 @@ import work.juanhernandez.postaround.ui.base.BaseActivity;
 import work.juanhernandez.postaround.utils.Constants;
 import work.juanhernandez.postaround.utils.Utils;
 
-import static work.juanhernandez.postaround.MainActivity.ACCESS_TOKEN;
-import static work.juanhernandez.postaround.MainActivity.LOGIN_ERROR;
-import static work.juanhernandez.postaround.MainActivity.LOGIN_OK;
-import static work.juanhernandez.postaround.MainActivity.LOGIN_RESULT;
-
 /**
  * Created by juan.hernandez on 5/3/18.
  * IGLoginActivity
  */
 
 public class IGLoginActivity extends BaseActivity {
+
+    public static final int INSTAGRAM_LOGIN = 1;
+
+    public static final String LOGIN_RESULT = "LOGIN_RESULT";
+    public static final int LOGIN_OK = 1;
+    public static final int LOGIN_ERROR = 2;
+    public static final int LOGIN_UNDEFINED = 3;
+
+    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+
     private final String url = Constants.BASE_URL
             + "oauth/authorize/?client_id=" +
             Constants.CLIENT_ID +

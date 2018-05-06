@@ -67,6 +67,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     ImageView ivRuler;
 
+    TextView tvEmpty;
+
     List<RecentMedia> recentMedia = new ArrayList<>();
 
     RecyclerView rvFeed;
@@ -121,6 +123,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
         llPermissionsDenied = findViewById(R.id.llPermissionsDenied);
         setMessageView(llPermissionsDenied);
+
+        tvEmpty = findViewById(R.id.tvEmpty);
     }
 
     private void enableUserLocation() {
@@ -137,7 +141,6 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     private void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
-            // todo: display a nice message with the reason to get user's location
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
@@ -172,8 +175,6 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     }
 
     private final LocationListener locationListener = new LocationListener() {
-
-
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
@@ -219,7 +220,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
                         PrefUtils.getStringPref(this, ACCESS_TOKEN_KEY),
                         MAX_COUNT));
 
-        feedPresenter.loadData();
+        // notify the presenter the view is ready to receive data
+        feedPresenter.subscribe();
     }
 
     void showDistancePickerDialog() {
@@ -277,7 +279,6 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 updateLocationData();
             } else {
-                // Permission was denied. todo: Display an error message.
                 hideProgress();
 
                 showMessage();
@@ -317,8 +318,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
             distance = MAX_DISTANCE;
             feedPresenter.loadData(distance);
         } else {
-            // todo: show cute message here
-            Toast.makeText(this, "no posts founded in 5000 meters", Toast.LENGTH_SHORT).show();
+            tvEmpty.setText(String.format(getString(R.string.no_instagramers_around_max), MAX_DISTANCE));
+            llEmptySearch.setVisibility(View.VISIBLE);
         }
     }
 

@@ -38,10 +38,10 @@ public class FeedPresenterTest {
 
     @Test
     public void getRecentMediaShouldLoadIntoView() {
-        RecentMediaResponse instagramPosts = new RecentMediaResponse(new ArrayList<>());
+        RecentMediaResponse recentMediaResponse = new RecentMediaResponse(new ArrayList<>());
 
         when(recentMediaDataSource.getRecentMedia(0, 0, 0, "", 0))
-                .thenReturn(Observable.just(instagramPosts));
+                .thenReturn(Observable.just(recentMediaResponse));
 
         FeedPresenter feedPresenter = new FeedPresenter(
                 this.recentMediaDataSource,
@@ -55,7 +55,7 @@ public class FeedPresenterTest {
         InOrder inOrder = Mockito.inOrder(view);
 
         inOrder.verify(view, times(1)).onGetRecentMediaStarted();
-        inOrder.verify(view, times(1)).onGetRecentMediaSuccess(instagramPosts.getData());
+        inOrder.verify(view, times(1)).onGetRecentMediaSuccess(recentMediaResponse.getData());
         inOrder.verify(view, times(1)).onGetRecentMediaCompleted();
     }
 

@@ -26,6 +26,7 @@
     <string name="we_need_your_permission">We need your permission to see instagramers around you</string>
     <string name="go_ahead">GO AHEAD!</string>
     <string name="no_instagramers_around">Weird… no instagramers around you… but we found some crickets :)</string>
+    <string name="no_instagramers_around_max">Weird… no instagramers in %d meters around you… but we found some crickets :)</string>
     <string name="search_til_you_find_something">Search til\' you find something</string>
     <string name="you_dont_have_access">It seems like you don\'t have access to the app, just drop me an email and you will have it.</string>
     <string name="if_you_already_contacted_me">If you already contacted me, go to your sandbox invites and accept the invitation.</string>
