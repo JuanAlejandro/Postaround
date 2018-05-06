@@ -3,6 +3,7 @@ package work.juanhernandez.postaround.ui.feed;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -34,6 +36,7 @@ import work.juanhernandez.postaround.data.request.RecentMediaRequest;
 import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaRemoteDataSource;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
 import work.juanhernandez.postaround.ui.feed.adapter.FeedAdapter;
+import work.juanhernandez.postaround.ui.login.LoginActivity;
 import work.juanhernandez.postaround.utils.PrefUtils;
 
 import static work.juanhernandez.postaround.utils.Constants.ACCESS_TOKEN_KEY;
@@ -48,7 +51,7 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final long LOCATION_REFRESH_TIME = 5 * 1000;
     private static final float LOCATION_REFRESH_DISTANCE = 10;
-    private static final String LOCATION_ID_KEY = "LOCATION_ID_KEY";
+
     private static final int MAX_COUNT = 10;
     private static final int MAX_DISTANCE = 5000;
     private static final int DEFAULT_DISTANCE = 500;
@@ -292,7 +295,9 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     @Override
     public void onGetRecentMediaError(Throwable e) {
-        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        Log.e(FeedActivity.class.getName(), e.toString());
+        startActivity(new Intent(FeedActivity.this, LoginActivity.class));
+        // todo: show notification (something wrong happened)
     }
 
     public void distancePickerClicked(View view) {
