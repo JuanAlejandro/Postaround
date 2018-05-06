@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -54,6 +55,7 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     private static final float LOCATION_REFRESH_DISTANCE = 10;
 
     private static final int MAX_COUNT = 10;
+    private static final int MIN_DISTANCE = 50;
     private static final int MAX_DISTANCE = 5000;
     private static final int DEFAULT_DISTANCE = 500;
 
@@ -61,6 +63,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     Location location;
 
     ProgressBar pbLoadingRecentMedia;
+
+    ImageView ivRuler;
 
     List<RecentMedia> recentMedia = new ArrayList<>();
 
@@ -72,8 +76,11 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     LinearLayout llPermissionsDenied;
     LinearLayout llWeNeedYourPermission;
+    LinearLayout llEmptySearch;
 
     int distance = DEFAULT_DISTANCE;
+
+    boolean distanceSetByTheUser = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,11 +106,15 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         pbLoadingRecentMedia = findViewById(R.id.pbLoadingRecentMedia);
         setProgressView(pbLoadingRecentMedia);
 
+        ivRuler = findViewById(R.id.ivRuler);
+
         rvFeed = findViewById(R.id.rvFeed);
         layoutManager = new LinearLayoutManager(this);
         rvFeed.setLayoutManager(layoutManager);
         feedAdapter = new FeedAdapter(this.recentMedia);
         rvFeed.setAdapter(feedAdapter);
+
+        llEmptySearch = findViewById(R.id.llEmptySearch);
 
         llWeNeedYourPermission = findViewById(R.id.llWeNeedYourPermission);
 
@@ -141,6 +152,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     // I'm making sure to request permissions before execute this code
     @SuppressLint("MissingPermission")
     private void updateLocationData() {
+        ivRuler.setVisibility(View.VISIBLE);
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -242,6 +255,11 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         builder.setView(dialogView)
                 // add action buttons
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
+                    distanceSetByTheUser = true;
+
+                    if (llEmptySearch.getVisibility() == View.VISIBLE)
+                        llEmptySearch.setVisibility(View.GONE);
+
                     getRecentMedia(location, distance);
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -284,6 +302,12 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
             return;
         }
 
+        if (distanceSetByTheUser) {
+            llEmptySearch.setVisibility(View.VISIBLE);
+            distanceSetByTheUser = false;
+            return;
+        }
+
         distance += DEFAULT_DISTANCE;
 
         if (distance < MAX_DISTANCE) {
@@ -314,5 +338,10 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         llWeNeedYourPermission.setVisibility(View.GONE);
 
         requestPermission();
+    }
+
+    public void searchTilWeFindSomething(View view) {
+        llEmptySearch.setVisibility(View.GONE);
+        updateLocationData();
     }
 }

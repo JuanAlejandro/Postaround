@@ -25,4 +25,6 @@
     <string name="ok_no_problema">OK, NO PROBLEMA</string>
     <string name="we_need_your_permission">We need your permission to see instagramers around you</string>
     <string name="go_ahead">GO AHEAD!</string>
+    <string name="no_instagramers_around">Weird… no instagramers around you… but we found some crickets :)</string>
+    <string name="search_til_you_find_something">Search til\' you find something</string>
 </resources>
