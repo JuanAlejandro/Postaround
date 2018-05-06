@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:elevation="@dimen/small_elevation"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:elevation="@dimen/small_elevation">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/header_title"/>
+                android:src="@drawable/header_title" />
 
             <ImageView
                 android:id="@+id/ivRuler"
@@ -34,9 +34,9 @@
                 android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginRight="@dimen/margin_large"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="distancePickerClicked"
                 android:clickable="true"
                 android:focusable="true"
+                android:onClick="distancePickerClicked"
                 android:src="@drawable/ruler" />
 
         </RelativeLayout>
@@ -48,17 +48,84 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:layoutAnimation="@anim/layout_animation_fall_down"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 
-    <TextView
-        android:id="@+id/tvMessage"
+    <!-- permissions denied -->
+    <LinearLayout
+        android:id="@+id/llPermissionsDenied"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_margin="@dimen/margin_large"
-        android:gravity="center"
-        android:text="@string/we_need_you_to_give_us_permission_to_access_to_your_location"
-        android:visibility="gone" />
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/sad" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/we_need_you_to_give_us_permission_to_access_to_your_location"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/post_data"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/text_size_small" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_large"
+            android:background="@drawable/default_btn_ripple"
+            android:onClick="getPermissions"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/ok_no_problema"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <!-- need your permission -->
+    <LinearLayout
+        android:id="@+id/llWeNeedYourPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/happy" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/we_need_your_permission"
+            android:textSize="@dimen/text_size_medium" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/default_btn_ripple"
+            android:onClick="getPermissions"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/go_ahead"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pbLoadingRecentMedia"

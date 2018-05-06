@@ -14,11 +14,15 @@
     <string name="ig_description">Looking for #something</string>
     <string name="where_are_you_right_now">Where are you right now?</string>
     <string name="go_to_feed">Go to feed</string>
-    <string name="we_need_you_to_give_us_permission_to_access_to_your_location">We need you to give us permission to access to your location</string>
+    <string name="we_need_you_to_give_us_permission_to_access_to_your_location">We need your permission to access your location</string>
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="select_the_distance">Select the distance</string>
     <string name="distance_sample">5000</string>
     <string name="log_in_with_instagram">Log in with instagram</string>
     <string name="login_desc_text">Check out instagramers around you the easiest way!</string>
+    <string name="post_data">P.S.: Don’t worry… this will be our secret ;)</string>
+    <string name="ok_no_problema">OK, NO PROBLEMA</string>
+    <string name="we_need_your_permission">We need your permission to see instagramers around you</string>
+    <string name="go_ahead">GO AHEAD!</string>
 </resources>

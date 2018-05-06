@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -61,8 +62,6 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     ProgressBar pbLoadingRecentMedia;
 
-    TextView tvMessage;
-
     List<RecentMedia> recentMedia = new ArrayList<>();
 
     RecyclerView rvFeed;
@@ -70,6 +69,9 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     FeedAdapter feedAdapter;
 
     FeedPresenter feedPresenter;
+
+    LinearLayout llPermissionsDenied;
+    LinearLayout llWeNeedYourPermission;
 
     int distance = DEFAULT_DISTANCE;
 
@@ -97,21 +99,23 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         pbLoadingRecentMedia = findViewById(R.id.pbLoadingRecentMedia);
         setProgressView(pbLoadingRecentMedia);
 
-        tvMessage = findViewById(R.id.tvMessage);
-        setMessageView(tvMessage);
-
         rvFeed = findViewById(R.id.rvFeed);
         layoutManager = new LinearLayoutManager(this);
         rvFeed.setLayoutManager(layoutManager);
         feedAdapter = new FeedAdapter(this.recentMedia);
         rvFeed.setAdapter(feedAdapter);
+
+        llWeNeedYourPermission = findViewById(R.id.llWeNeedYourPermission);
+
+        llPermissionsDenied = findViewById(R.id.llPermissionsDenied);
+        setMessageView(llPermissionsDenied);
     }
 
     private void enableUserLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission to access the location is missing.
-            requestPermission();
+            llWeNeedYourPermission.setVisibility(View.VISIBLE);
         } else {
             // Access to the location has been granted to the app.
             updateLocationData();
@@ -302,5 +306,13 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     public void distancePickerClicked(View view) {
         showDistancePickerDialog();
+    }
+
+    public void getPermissions(View view) {
+        hideMessage();
+
+        llWeNeedYourPermission.setVisibility(View.GONE);
+
+        requestPermission();
     }
 }
