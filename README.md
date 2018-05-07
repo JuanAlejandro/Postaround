@@ -2,9 +2,9 @@
 
 ![Postaround](/files/postaround_header.png)
 
-Postaround is a demo app which allows users to see Instagram posts in their their area. At this time the app is in `Sandox` mode only, so user accounts will need to be approved in order to use tha app.
+Postaround is a demo app which allows users to see Instagram posts in their area. At this time the app is in **Sandbox mode**, so user accounts will need to be approved in order to use the app.
 
-The app will show users 10 posts from their the area. A default radius of 500 meters around the users' current location will be used, with the option of extending the search radius from teh app's UI.
+The app will show users 10 posts from their area. A default radius of 500 meters around the users' current location will be used, with the option of extending the search radius from the app's UI.
 
 Also, the app will automatically search a wider area if there are no results found near the user.
 
@@ -31,11 +31,11 @@ The project is ready to be built it and run in an Android emulator or your Andro
 
 ## Using the app
 
-### 1. Get a sandbox user
+### 1. Make you a Sandbox user
 
 Since the app is only for demo purposes is in **[Sandbox Mode](https://www.instagram.com/developer/sandbox/)**. It is however a fully functional environment that allows developers to test the Instagram API.
 
-To get a Sandbox user send me email to [jalejandro.hperez@gmail.com](mailto:jalejandro.hperez@gmail.com). After your account has been confirmed as a Sandbox user, you'll be able to start using the app.
+To make you a Sandbox user send me an email to [jalejandro.hperez@gmail.com](mailto:jalejandro.hperez@gmail.com). After your account has been confirmed as a Sandbox user, you'll be able to start using the app.
 
 If your account hasn't been enabled as a Sandbox user, the app will show a view similar to the image below.
 
@@ -47,7 +47,7 @@ Now you're ready to explore the app! Sandbox users are by default from Miami, FL
 
 ![Feed](/files/feed.png)
 
-If you aren't in Miami you will probably see only posts of yourself (if you tag the location in your posts). If you dosn't usually tag your location in posts, you'll likely see a screen like the one below.
+If you aren't in Miami you will probably see only posts of yourself (if you tag the location in your posts). If you don't usually tag your location in posts, you'll likely see a screen like the one below.
 
 ![Empty screen](/files/empty.png)
 
