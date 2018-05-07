@@ -7,7 +7,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0 (1805.01)"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -17,34 +17,30 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion '27.0.3'
 }
 
 def appCompatVersion = '27.1.1'
 def retrofitVersion = '2.4.0'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$appCompatVersion"
     implementation "com.android.support:recyclerview-v7:$appCompatVersion"
     implementation "com.android.support:cardview-v7:$appCompatVersion"
     implementation "com.android.support:support-v4:$appCompatVersion"
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testCompile 'org.mockito:mockito-core:2.6.8'
-
     compile 'com.scottyab:secure-preferences-lib:0.1.4'
-
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
-
     implementation 'com.squareup.picasso:picasso:2.71828'
-
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 }
