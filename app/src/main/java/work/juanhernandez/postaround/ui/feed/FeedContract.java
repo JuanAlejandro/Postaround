@@ -31,6 +31,9 @@ public interface FeedContract {
         // notify the presenter that its view has become active
         void subscribe();
 
+        // notify the presenter that the distance changed
+        void subscribe(int distance);
+
         // notify the presenter that its view has become inactive
         void unsubscribe();
 

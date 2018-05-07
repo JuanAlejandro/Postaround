@@ -36,7 +36,7 @@ import rx.schedulers.Schedulers;
 import work.juanhernandez.postaround.R;
 import work.juanhernandez.postaround.data.model.RecentMedia;
 import work.juanhernandez.postaround.data.request.RecentMediaRequest;
-import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaRemoteDataSource;
+import work.juanhernandez.postaround.data.retrofit.recentmedia.FeedRemoteDataSource;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
 import work.juanhernandez.postaround.ui.feed.adapter.FeedAdapter;
 import work.juanhernandez.postaround.ui.login.LoginActivity;
@@ -56,34 +56,36 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     private static final float LOCATION_REFRESH_DISTANCE = 10;
 
     private static final int MAX_COUNT = 10;
-    private static final int MIN_DISTANCE = 50;
     private static final int MAX_DISTANCE = 5000;
     private static final int DEFAULT_DISTANCE = 500;
 
+    // region location vars
     LocationManager locationManager;
     Location location;
+    // endregion
 
+    // region view vars
     ProgressBar pbLoadingRecentMedia;
-
     ImageView ivRuler;
-
     TextView tvEmpty;
-
-    List<RecentMedia> recentMedia = new ArrayList<>();
-
     RecyclerView rvFeed;
     RecyclerView.LayoutManager layoutManager;
     FeedAdapter feedAdapter;
-
-    FeedPresenter feedPresenter;
-
     LinearLayout llPermissionsDenied;
     LinearLayout llWeNeedYourPermission;
     LinearLayout llEmptySearch;
+    LinearLayout llWormHole;
+    // endregion
 
+    FeedPresenter feedPresenter;
+
+    List<RecentMedia> recentMedia = new ArrayList<>();
+
+    // distance to search recent media
     int distance = DEFAULT_DISTANCE;
 
-    boolean distanceSetByTheUser = false;
+    // the app will search until it finds recent media if autoSearch is true
+    boolean autoSearch = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
         initializeToolbar();
 
-        enableUserLocation();
+        getUserLocation();
     }
 
     private void initializeToolbar() {
@@ -118,16 +120,14 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         rvFeed.setAdapter(feedAdapter);
 
         llEmptySearch = findViewById(R.id.llEmptySearch);
-
         llWeNeedYourPermission = findViewById(R.id.llWeNeedYourPermission);
-
+        llWormHole = findViewById(R.id.llWormHole);
         llPermissionsDenied = findViewById(R.id.llPermissionsDenied);
-        setMessageView(llPermissionsDenied);
 
         tvEmpty = findViewById(R.id.tvEmpty);
     }
 
-    private void enableUserLocation() {
+    private void getUserLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission to access the location is missing.
@@ -156,22 +156,28 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     // I'm making sure to request permissions before execute this code
     @SuppressLint("MissingPermission")
     private void updateLocationData() {
-        ivRuler.setVisibility(View.VISIBLE);
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager != null) {
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
+        if (locationManager != null) {
+            // show distance selector option
+            ivRuler.setVisibility(View.VISIBLE);
+
+            // if the device has recent location saved, use it
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location != null) {
                 getRecentMedia(location, distance);
                 return;
             }
 
+            // if not request location update to the system
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                     LOCATION_REFRESH_DISTANCE, locationListener);
+
+            showProgress();
+        } else {
+            llWormHole.setVisibility(View.VISIBLE);
         }
 
-        showProgress();
     }
 
     private final LocationListener locationListener = new LocationListener() {
@@ -181,8 +187,6 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
                 FeedActivity.this.location = location;
                 getRecentMedia(location, distance);
             }
-
-            hideProgress();
         }
 
         // region not used methods
@@ -204,12 +208,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     };
 
     private void getRecentMedia(Location location, int distance) {
-        showProgress();
-
-        recentMedia.clear();
-
         feedPresenter = new FeedPresenter(
-                new RecentMediaRemoteDataSource().getApi(),
+                new FeedRemoteDataSource().getApi(),
                 Schedulers.io(),
                 AndroidSchedulers.mainThread(),
                 this,
@@ -258,7 +258,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         builder.setView(dialogView)
                 // add action buttons
                 .setPositiveButton(R.string.ok, (dialog, id) -> {
-                    distanceSetByTheUser = true;
+                    // deactivate auto-search since the user wants to see posts around a specific distance
+                    autoSearch = false;
 
                     if (llEmptySearch.getVisibility() == View.VISIBLE)
                         llEmptySearch.setVisibility(View.GONE);
@@ -280,8 +281,8 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
                 updateLocationData();
             } else {
                 hideProgress();
-
-                showMessage();
+                // show request permission message
+                llPermissionsDenied.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -298,26 +299,34 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
 
     @Override
     public void onGetRecentMediaSuccess(List<RecentMedia> recentMedia) {
+        this.recentMedia.clear();
+
         if (recentMedia.size() != 0) {
             this.recentMedia.addAll(recentMedia);
             feedAdapter.notifyDataSetChanged();
             return;
         }
 
-        if (distanceSetByTheUser) {
+        // if the search was triggered by the user and there's no results
+        // show empty message
+        if (!autoSearch) {
             llEmptySearch.setVisibility(View.VISIBLE);
-            distanceSetByTheUser = false;
+            autoSearch = true;
             return;
         }
 
+        // if posts aren't found, increase the distance automatically
         distance += DEFAULT_DISTANCE;
 
+        // if distance is less than max distance keep looking
         if (distance < MAX_DISTANCE) {
-            feedPresenter.loadData(distance);
-        } else if (distance != MAX_DISTANCE) {
+            feedPresenter.subscribe(distance);
+        } else if (distance >= MAX_DISTANCE) {
+            // if distance is greater or equal than MAX_DISTANCE search one more time
             distance = MAX_DISTANCE;
-            feedPresenter.loadData(distance);
+            feedPresenter.subscribe(distance);
         } else {
+            // if no posts aren't found show empty message
             tvEmpty.setText(String.format(getString(R.string.no_instagramers_around_max), MAX_DISTANCE));
             llEmptySearch.setVisibility(View.VISIBLE);
         }
@@ -327,7 +336,9 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     public void onGetRecentMediaError(Throwable e) {
         Log.e(FeedActivity.class.getName(), e.toString());
         startActivity(new Intent(FeedActivity.this, LoginActivity.class));
-        // todo: show notification (something wrong happened)
+        PrefUtils.setStringPref(this, ACCESS_TOKEN_KEY, null);
+        Toast.makeText(this, R.string.something_wrong_happened, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     public void distancePickerClicked(View view) {
@@ -335,15 +346,28 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     }
 
     public void getPermissions(View view) {
-        hideMessage();
-
-        llWeNeedYourPermission.setVisibility(View.GONE);
+        switch (view.getId()){
+            case R.id.btnReqPermFirstTime:
+                llWeNeedYourPermission.setVisibility(View.GONE);
+                break;
+            case R.id.btnReqPermAgain:
+                llPermissionsDenied.setVisibility(View.GONE);
+                break;
+        }
 
         requestPermission();
     }
 
-    public void searchTilWeFindSomething(View view) {
-        llEmptySearch.setVisibility(View.GONE);
+    public void reUpdateLocationData(View view) {
+        switch (view.getId()){
+            case R.id.btnEmptySearch:
+                llEmptySearch.setVisibility(View.GONE);
+                break;
+            case R.id.btnWormHole:
+                llWormHole.setVisibility(View.GONE);
+                break;
+        }
+
         updateLocationData();
     }
 

@@ -83,6 +83,7 @@
             android:textSize="@dimen/text_size_small" />
 
         <Button
+            android:id="@+id/btnReqPermAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -118,6 +119,7 @@
             android:textSize="@dimen/text_size_medium" />
 
         <Button
+            android:id="@+id/btnReqPermFirstTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -153,13 +155,49 @@
             android:textSize="@dimen/text_size_medium" />
 
         <Button
+            android:id="@+id/btnEmptySearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/default_btn_ripple"
-            android:onClick="searchTilWeFindSomething"
+            android:onClick="reUpdateLocationData"
             android:padding="@dimen/padding_medium"
             android:text="@string/search_til_you_find_something"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <!-- worm hole -->
+    <LinearLayout
+        android:id="@+id/llWormHole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/worm" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/you_found_wormhole"
+            android:textSize="@dimen/text_size_medium" />
+
+        <Button
+            android:id="@+id/btnWormHole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/default_btn_ripple"
+            android:onClick="reUpdateLocationData"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/lets_try_again"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

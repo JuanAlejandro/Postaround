@@ -36,7 +36,8 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 try {
                     sleep(SPLASH_TIME);
-
+                    // if there is an access token already saved in preferences go to FeedActivity
+                    // if not go to LoginActivity
                     Class classToStart =
                             PrefUtils.getStringPref(SplashActivity.this, ACCESS_TOKEN_KEY) != null
                                     ? FeedActivity.class

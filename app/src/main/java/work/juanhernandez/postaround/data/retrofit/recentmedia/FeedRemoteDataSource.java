@@ -12,21 +12,21 @@ import work.juanhernandez.postaround.utils.Constants;
  * Retrofit description of the recent media endpoint
  */
 
-public class RecentMediaRemoteDataSource implements RecentMediaDataSource {
+public class FeedRemoteDataSource implements FeedDataSource {
 
-    private RecentMediaDataSource api;
+    private FeedDataSource api;
 
-    public RecentMediaRemoteDataSource() {
+    public FeedRemoteDataSource() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        this.api = retrofit.create(RecentMediaDataSource.class);
+        this.api = retrofit.create(FeedDataSource.class);
     }
 
-    public RecentMediaDataSource getApi() {
+    public FeedDataSource getApi() {
         return api;
     }
 

@@ -2,16 +2,17 @@ package work.juanhernandez.postaround.data.model;
 
 /**
  * Created by juan.hernandez on 5/4/18.
+ * LocationIG
  */
 
 public class LocationIG {
-    String id;
+    private String id;
 
-    double latitude;
+    private double latitude;
 
-    double longitude;
+    private double longitude;
 
-    String name;
+    private String name;
 
     public String getId() {
         return id;

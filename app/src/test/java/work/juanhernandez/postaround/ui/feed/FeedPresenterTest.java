@@ -13,8 +13,7 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 import work.juanhernandez.postaround.data.request.RecentMediaRequest;
 import work.juanhernandez.postaround.data.response.RecentMediaResponse;
-import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaDataSource;
-import work.juanhernandez.postaround.data.retrofit.recentmedia.RecentMediaRemoteDataSource;
+import work.juanhernandez.postaround.data.retrofit.recentmedia.FeedRemoteDataSource;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -26,7 +25,7 @@ import static org.mockito.Mockito.when;
  */
 public class FeedPresenterTest {
     @Mock
-    private RecentMediaRemoteDataSource recentMediaDataSource;
+    private FeedRemoteDataSource recentMediaDataSource;
 
     @Mock
     private FeedContract.View view;

@@ -6,7 +6,7 @@ package work.juanhernandez.postaround.data.model;
  */
 
 public class Caption {
-    String text;
+    private String text;
 
     public String getText() {
         return text;

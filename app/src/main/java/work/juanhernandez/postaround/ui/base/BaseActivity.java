@@ -11,8 +11,6 @@ import android.view.View;
 public class BaseActivity extends AppCompatActivity {
     View progressView;
 
-    View messageView;
-
     /**
      * warning: you have to call it in your onCreate method
      */
@@ -32,19 +30,5 @@ public class BaseActivity extends AppCompatActivity {
     public void hideProgress() {
         if (progressView != null)
             progressView.setVisibility(View.GONE);
-    }
-
-    public void setMessageView(View view) {
-        this.messageView = view;
-    }
-
-    public void showMessage() {
-        if (messageView != null)
-            messageView.setVisibility(View.VISIBLE);
-    }
-
-    public void hideMessage() {
-        if (messageView != null)
-            messageView.setVisibility(View.GONE);
     }
 }

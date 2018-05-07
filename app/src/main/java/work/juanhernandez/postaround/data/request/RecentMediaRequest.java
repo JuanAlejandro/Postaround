@@ -7,15 +7,15 @@ package work.juanhernandez.postaround.data.request;
 
 public class RecentMediaRequest {
 
-    double lat;
+    private double lat;
 
-    double lng;
+    private double lng;
 
-    int distance;
+    private int distance;
 
-    String accessToken;
+    private String accessToken;
 
-    int count;
+    private int count;
 
     public RecentMediaRequest(double lat, double lng, int distance, String accessToken, int count) {
         this.lat = lat;

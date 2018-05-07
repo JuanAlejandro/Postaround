@@ -7,10 +7,10 @@ import work.juanhernandez.postaround.data.response.RecentMediaResponse;
 
 /**
  * Created by juan.hernandez on 5/4/18.
- * RecentMediaDataSource
+ * FeedDataSource
  */
 
-public interface RecentMediaDataSource {
+public interface FeedDataSource {
     @GET("v1/media/search")
     Observable<RecentMediaResponse> getRecentMedia(@Query("lat") double lat,
                                                    @Query("lng") double lng,

@@ -6,7 +6,7 @@ package work.juanhernandez.postaround.data.model;
  */
 
 public class User {
-    String username;
+    private String username;
 
     public String getUsername() {
         return username;

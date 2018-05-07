@@ -3,11 +3,10 @@ package work.juanhernandez.postaround.ui.login;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -15,11 +14,16 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import okhttp3.internal.Util;
 import work.juanhernandez.postaround.R;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
 import work.juanhernandez.postaround.utils.Constants;
 import work.juanhernandez.postaround.utils.Utils;
+
+import static work.juanhernandez.postaround.ui.login.LoginActivity.ACCESS_TOKEN;
+import static work.juanhernandez.postaround.ui.login.LoginActivity.LOGIN_ERROR;
+import static work.juanhernandez.postaround.ui.login.LoginActivity.LOGIN_OK;
+import static work.juanhernandez.postaround.ui.login.LoginActivity.LOGIN_RESULT;
+import static work.juanhernandez.postaround.utils.Constants.UNAUTHORIZED;
 
 /**
  * Created by juan.hernandez on 5/3/18.
@@ -27,23 +31,6 @@ import work.juanhernandez.postaround.utils.Utils;
  */
 
 public class IGLoginActivity extends BaseActivity {
-
-    public static final int INSTAGRAM_LOGIN = 1;
-
-    public static final String LOGIN_RESULT = "LOGIN_RESULT";
-    public static final int LOGIN_OK = 1;
-    public static final int LOGIN_ERROR = 2;
-    public static final int LOGIN_UNDEFINED = 3;
-
-    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-
-    private final String url = Constants.BASE_URL
-            + "oauth/authorize/?client_id=" +
-            Constants.CLIENT_ID +
-            "&redirect_uri=" +
-            Constants.REDIRECT_URI +
-            "&response_type=token" +
-            "&display=touch&scope=public_content";
 
     private WebView webView;
 
@@ -70,8 +57,17 @@ public class IGLoginActivity extends BaseActivity {
 
     private void initializeWebView() {
         webView = findViewById(R.id.wvLogin);
-        // in order to reload instagram login page
+
+        // to clear cookies in case something wrong happened
         Utils.clearCookies(this);
+
+        String url = Constants.BASE_URL
+                + "oauth/authorize/?client_id=" +
+                Constants.CLIENT_ID +
+                "&redirect_uri=" +
+                Constants.REDIRECT_URI +
+                "&response_type=token" +
+                "&display=touch&scope=public_content";
 
         webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {
@@ -111,10 +107,27 @@ public class IGLoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                // if SDK version < 23
+                // show don't have access layout if error code is 403
+                if(errorCode == UNAUTHORIZED) {
+                    llDontHaveAccess.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request,
+                                            WebResourceResponse errorResponse) {
                 super.onReceivedHttpError(view, request, errorResponse);
+                // if SDK version > 23
                 webView.setVisibility(View.GONE);
-                llDontHaveAccess.setVisibility(View.VISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // show don't have access layout if error code is 403
+                    if(errorResponse.getStatusCode() == UNAUTHORIZED) {
+                        llDontHaveAccess.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
     }

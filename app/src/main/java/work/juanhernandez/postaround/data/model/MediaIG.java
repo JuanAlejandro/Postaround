@@ -2,14 +2,15 @@ package work.juanhernandez.postaround.data.model;
 
 /**
  * Created by juan.hernandez on 5/4/18.
+ * MediaIG
  */
 
 public class MediaIG {
-    String url;
+    private String url;
 
-    int width;
+    private int width;
 
-    int height;
+    private int height;
 
     public String getUrl() {
         return url;

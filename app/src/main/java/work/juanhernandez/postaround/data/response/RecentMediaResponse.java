@@ -11,7 +11,7 @@ import work.juanhernandez.postaround.data.model.RecentMedia;
  */
 
 public class RecentMediaResponse {
-    List<RecentMedia> data;
+    private List<RecentMedia> data;
 
     public RecentMediaResponse(List<RecentMedia> data) {
         this.data = data;

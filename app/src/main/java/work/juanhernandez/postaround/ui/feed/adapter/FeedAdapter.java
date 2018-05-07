@@ -21,7 +21,7 @@ import work.juanhernandez.postaround.data.model.RecentMedia;
  */
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-    List<RecentMedia> recentMedia;
+    private List<RecentMedia> recentMedia;
 
     public FeedAdapter(List<RecentMedia> recentMedia) {
         this.recentMedia = recentMedia;
@@ -47,11 +47,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return recentMedia.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivIGPhoto, civProfilePhoto;
         TextView tvUsername, tvComment;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             ivIGPhoto = itemView.findViewById(R.id.ivIGPhoto);
             civProfilePhoto = itemView.findViewById(R.id.civProfilePhoto);
@@ -59,7 +59,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvComment = itemView.findViewById(R.id.tvComment);
         }
 
-        public void bind(RecentMedia recentMedia) {
+        void bind(RecentMedia recentMedia) {
             Picasso.get()
                     .load(recentMedia.getImages()
                             .getStandardResolution()

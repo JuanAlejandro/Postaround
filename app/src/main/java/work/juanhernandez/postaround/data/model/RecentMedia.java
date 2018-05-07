@@ -6,22 +6,19 @@ package work.juanhernandez.postaround.data.model;
  */
 
 public class RecentMedia {
-    public static final String IMAGE_TYPE = "image";
-    public static final String VIDEO_TYPE = "video";
+    private String id;
 
-    String id;
+    private User user;
 
-    User user;
+    private MediasIG images;
 
-    MediasIG images;
+    private MediasIG videos;
 
-    MediasIG videos;
+    private Caption caption;
 
-    Caption caption;
+    private String type;
 
-    String type;
-
-    LocationIG location;
+    private LocationIG location;
 
     public String getId() {
         return id;

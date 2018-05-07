@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class MediasIG {
     @SerializedName("standard_resolution")
+    private
     MediaIG standardResolution;
 
     public MediaIG getStandardResolution() {

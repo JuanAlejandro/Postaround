@@ -3,8 +3,8 @@ package work.juanhernandez.postaround.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import work.juanhernandez.postaround.R;
 import work.juanhernandez.postaround.ui.base.BaseActivity;
@@ -34,8 +34,10 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
     }
 
+    // executed when sign in button is pressed
     public void loginWithInstagramClicked(View view) {
         Intent intent = new Intent(LoginActivity.this, IGLoginActivity.class);
+        // start activity for login result
         startActivityForResult(intent, INSTAGRAM_LOGIN);
     }
 
@@ -48,21 +50,22 @@ public class LoginActivity extends BaseActivity {
                 // the activity executed successfully
                 switch (data.getIntExtra(LOGIN_RESULT, LOGIN_UNDEFINED)) {
                     case LOGIN_OK:
+                        // login successful
                         PrefUtils.setStringPref(this, ACCESS_TOKEN_KEY,
                                 data.getStringExtra(ACCESS_TOKEN));
+                        // go to FeedActivity
                         startActivity(new Intent(LoginActivity.this, FeedActivity.class));
                         finish();
                         break;
 
                     case LOGIN_ERROR:
-                        // todo: show error message
-                        Log.d("LoginActivity", "point");
+                        Toast.makeText(this, R.string.something_wrong_happened, Toast.LENGTH_SHORT).show();
                         break;
 
                     case LOGIN_UNDEFINED:
                     default:
-                        // todo: show undefined message
-                        Log.d("LoginActivity", "point");
+                        Toast.makeText(this, R.string.you_found_wormhole,
+                                Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

@@ -14,4 +14,6 @@ public class Constants {
 
     // preference keys
     public static final String ACCESS_TOKEN_KEY = "ACCESS_TOKEN_KEY";
+
+    public static final int UNAUTHORIZED = 403;
 }

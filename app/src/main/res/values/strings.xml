@@ -31,4 +31,7 @@
     <string name="you_dont_have_access">It seems like you don\'t have access to the app, just drop me an email and you will have it.</string>
     <string name="if_you_already_contacted_me">If you already contacted me, go to your sandbox invites and accept the invitation.</string>
     <string name="drop_me_a_line">CONTACT ME</string>
+    <string name="something_wrong_happened">Something wrong happened. Please, try again.</string>
+    <string name="you_found_wormhole">You found a wormhole!</string>
+    <string name="lets_try_again">Let\'s try again</string>
 </resources>
