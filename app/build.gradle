@@ -14,8 +14,8 @@ android {
         applicationId "work.juanhernandez.postaraound"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0 (1805.01)"
+        versionCode 2
+        versionName "1.0.1 (1805.02)"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
