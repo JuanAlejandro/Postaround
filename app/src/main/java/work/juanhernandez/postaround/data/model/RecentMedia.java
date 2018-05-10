@@ -37,7 +37,7 @@ public class RecentMedia {
     }
 
     public Caption getCaption() {
-        return caption;
+        return caption != null ? caption : new Caption();
     }
 
     public String getType() {

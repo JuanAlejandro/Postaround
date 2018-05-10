@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'postaround'
+            keyPassword 'postaround2018'
+            storeFile file('/Users/juanalejandrohernandez/Downloads/postaround/postaround')
+            storePassword 'postaround2018'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "work.juanhernandez.postaraound"
@@ -14,6 +22,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {

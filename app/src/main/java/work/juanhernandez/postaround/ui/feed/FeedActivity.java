@@ -87,6 +87,9 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     // the app will search until it finds recent media if autoSearch is true
     boolean autoSearch = true;
 
+    // the maximum search distance was reach
+    boolean maxSearch = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,17 +195,14 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         // region not used methods
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle) {
-
         }
 
         @Override
         public void onProviderEnabled(String s) {
-
         }
 
         @Override
         public void onProviderDisabled(String s) {
-
         }
         // endregion
     };
@@ -319,14 +319,16 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
         distance += DEFAULT_DISTANCE;
 
         // if distance is less than max distance keep looking
-        if (distance < MAX_DISTANCE) {
+        if (distance <= MAX_DISTANCE) {
             feedPresenter.subscribe(distance);
-        } else if (distance >= MAX_DISTANCE) {
+        } else if (distance > MAX_DISTANCE && !maxSearch) {
             // if distance is greater or equal than MAX_DISTANCE search one more time
+            maxSearch = true;
             distance = MAX_DISTANCE;
             feedPresenter.subscribe(distance);
         } else {
             // if no posts aren't found show empty message
+            maxSearch = false;
             tvEmpty.setText(String.format(getString(R.string.no_instagramers_around_max), MAX_DISTANCE));
             llEmptySearch.setVisibility(View.VISIBLE);
         }
@@ -346,7 +348,7 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     }
 
     public void getPermissions(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnReqPermFirstTime:
                 llWeNeedYourPermission.setVisibility(View.GONE);
                 break;
@@ -359,7 +361,7 @@ public class FeedActivity extends BaseActivity implements FeedContract.View {
     }
 
     public void reUpdateLocationData(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnEmptySearch:
                 llEmptySearch.setVisibility(View.GONE);
                 break;
