@@ -2,9 +2,9 @@
 
 ![Postaround](/files/postaround_header.png)
 
-Postaround is a demo app which allows users to see Instagram posts in their their area. At this time the app is in `Sandox` mode only, so user accounts will need to be approved in order to use tha app.
+Postaround is a demo app which allows users to see Instagram posts in their area. At this time the app is in **Sandbox mode**, so user accounts will need to be approved in order to use the app.
 
-The app will show users 10 posts from their the area. A default radius of 500 meters around the users' current location will be used, with the option of extending the search radius from teh app's UI.
+The app will show users 10 posts from their area. A default radius of 500 meters around the users' current location will be used, with the option of extending the search radius from the app's UI.
 
 Also, the app will automatically search a wider area if there are no results found near the user.
 
@@ -27,15 +27,15 @@ Clone this repo to your PC and open it in Android Studio.
 
 ### 2. Build and run!
 
-The project is ready to be built it and run in an Android emulator or your Android phone.
+The project is ready to be built it and run on an Android emulator or your Android phone.
 
 ## Using the app
 
-### 1. Get a sandbox user
+### 1. Make you a Sandbox user
 
-Since the app is only for demo purposes is in **[Sandbox Mode](https://www.instagram.com/developer/sandbox/)**. It is however a fully functional environment that allows developers to test the Instagram API.
+Since the app is only for demo purposes is in **[Sandbox Mode](https://www.instagram.com/developer/sandbox/)**. It is, however, a fully functional environment that allows developers to test the Instagram API.
 
-To get a Sandbox user send me email to [jalejandro.hperez@gmail.com](mailto:jalejandro.hperez@gmail.com). After your account has been confirmed as a Sandbox user, you'll be able to start using the app.
+To make you a Sandbox user send me an email to [jalejandro.hperez@gmail.com](mailto:jalejandro.hperez@gmail.com). After your account has been confirmed as a Sandbox user, you'll be able to start using the app.
 
 If your account hasn't been enabled as a Sandbox user, the app will show a view similar to the image below.
 
@@ -47,7 +47,7 @@ Now you're ready to explore the app! Sandbox users are by default from Miami, FL
 
 ![Feed](/files/feed.png)
 
-If you aren't in Miami you will probably see only posts of yourself (if you tag the location in your posts). If you dosn't usually tag your location in posts, you'll likely see a screen like the one below.
+If you aren't in Miami you will probably see only posts of yourself (if you tag the location in your posts). If you don't usually tag your location in posts, you'll likely see a screen like the one below.
 
 ![Empty screen](/files/empty.png)
 
@@ -57,9 +57,9 @@ To set a custom radius to look for posts, click the ruler icon in the upper righ
 
 ![Ruler](/files/ruler.png)
 
-## A foreword about Unit Tests in the project
+## A foreword to Unit Tests in the project
 
-Before executing the tests it is important to know that I've used the Model-View-Presenter (MVP) pattern. The MVP pattern allows for greater code readability, testability, cleaness and adaptability to changes. To know more about MVP pattern check [this article](https://android.jlelse.eu/architectural-guidelines-to-follow-for-mvp-pattern-in-android-2374848a0157).
+Before executing the tests it is important to know that I've used the Model-View-Presenter (MVP) pattern. The MVP pattern allows for greater code readability, testability, cleanness and adaptability to changes. To know more about MVP pattern check [this article](https://android.jlelse.eu/architectural-guidelines-to-follow-for-mvp-pattern-in-android-2374848a0157).
 
 In the images below you can see how I've applied MVP to the Feed functionality for both cases when retrieving the data: Success and Fail.
 
@@ -72,7 +72,7 @@ The Success case involves the following methods:
 * `subscribe()`: Used to notify FeedPresenter that FeedActivity is ready to get the data.
 * `onRecentMediaStarted`: Used to notify FeedActivity that the API request will start soon.
 * `getRecentMedia(...)`: FeedPresenter tells FeedDataSource to get the recent posts within a given radius around a specified location.
-* `onCompleted()`: FeedDataSource has finished to get data from the server and notifies the FeedPresenter.
+* `onCompleted()`: FeedDataSource has finished getting data from the server and notifies the FeedPresenter.
 * `onRecentMediaCompleted()`: Notify FeedActivity that all the necessary data is fetched already.
 * `onNext(...)`: FeedDataSource returns the requested data to FeedPresenter.
 * `onGetRecentMediaSuccess(...)`: FeedPresenter returns the requested data to FeedActivity.
@@ -83,7 +83,7 @@ The Success case involves the following methods:
 
 The Fail case involves the following methods that are not involved in the Success case:
 
-* `onError(...)`: FeedDataSource notifies FeedPresenter that an error ocurred during the request.
+* `onError(...)`: FeedDataSource notifies FeedPresenter that an error occurred during the request.
 * `onGetRecentMediaError()`: FeedPresenter notifies FeedActivity about the error.
 
 ## Unit Tests included in the project
@@ -92,19 +92,19 @@ In this project I've implemented three tests:
 
 * `FeedPresenterTest.getRecentMediaShouldLoadIntoView`: It checks that the View calls the right methods when the Presenter has requested the recent media and the response is successful.
 * `FeedPresenterTest.getRecentMediaShouldReturnErrorToView`: This test is similar to the first one. The only change is the Presenter will get an error in the response and the View should trigger the appropriate methods.
-* `PrefUtilsTest.securePrefsAreSavedCorrectly`: This test checks that the data is correctly saved by an external library used to securely persist the Instagram API access token accross app sessions.
+* `PrefUtilsTest.securePrefsAreSavedCorrectly`: This test checks that the data is correctly saved by an external library used to securely persist the Instagram API access token across app sessions.
 
 ### How to run the first two tests
 
-Switch to the *Local Unit Tests* View in the file explorer in Android Studio (see the image below). You'll see a folder named *app*. Expand the folders under it until you get to a class named `FeedPresenterTest`. Right click the class and select *Run 'FeedPresenterTest'*.
+Switch to the *Local Unit Tests* View in the file explorer in Android Studio (see the image below). You'll see a folder named *app*. Expand the folders under it until you get to a class named `FeedPresenterTest`. Right-click the class and select *Run 'FeedPresenterTest'*.
 
-![Local Unit Test](/file/local_unit_tests.png)
+![Local Unit Test](/files/local_unit_tests.png)
 
 ### How to execute the last test
 
-Switch to the *Android Instrumented Tests* View in the file explorer in Android Studio (see the image below). Expand the foders under the *app* folder until you get to a class named `PrefUtilsTest`. Then, right click the class and select *Run 'PrefUtilsTest'*.
+Switch to the *Android Instrumented Tests* View in the file explorer in Android Studio (see the image below). Expand the folders under the *app* folder until you get to a class named `PrefUtilsTest`. Then, right-click the class and select *Run 'PrefUtilsTest'*.
 
-![Android Instrumented Tests](/file/android_instrumented_tests.png)
+![Android Instrumented Tests](/files/android_instrumented_tests.png)
 
 ### Instagram API
 
